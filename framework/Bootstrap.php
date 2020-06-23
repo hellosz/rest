@@ -59,7 +59,9 @@ class Bootstrap
     ];
 
 
-
+    /**
+     * 启动框架
+     */
     public function boot()
     {
 
@@ -67,6 +69,7 @@ class Bootstrap
             $this->getRequestMethod();// 解析请求资源
             $this->getRequestUri();// 解析请求方法
             $this->getRequestResource();// 获取路由和参数
+            $this->permanentRequest(); // 持久化请求信息
             list($resouce, $function) = $this->resoleRoutes();// 调用映射方法
             $res    = $this->dispatch($resouce, $function);
         } catch (Exception $e) {
@@ -101,7 +104,8 @@ class Bootstrap
 
         // 解析
         $resource = explode('/', trim($requestUri, '/'));
-        array_shift($resource);
+        // 设置版本号
+        $this->requestVersion = array_shift($resource);
 
         // 获取请求rui
         if ($this->requestMethod == METHOD_POST) {
@@ -127,6 +131,18 @@ class Bootstrap
             $resource = explode('/', trim($requestUri, '/'));
             $this->parameters = $resource[2];
         }
+    }
+
+    /**
+     * 将用户请求相关信息持久化
+     */
+    public function permanentRequest()
+    {
+        Request::append(array_merge([
+            'uri' => $this->requestUri,
+            'method' => $this->requestMethod,
+            'version' => $this->requestVersion,
+        ], $this->parameters));
     }
 
     /**

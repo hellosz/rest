@@ -8,7 +8,6 @@
  * Time: 13:47
  */
 
-
 class Request
 {
     /**
@@ -28,24 +27,64 @@ class Request
         self::$attributes = (array)$attributes;
     }
 
-    public function get(string $key)
+    /**
+     * 获取属性值
+     *
+     * @param string $key
+     * @return bool|mixed
+     */
+    public static function get(string $key)
     {
         return self::$attributes[$key] ?? false;
     }
 
-    public function set(string $key, $val)
+    /**
+     * 设置属性值
+     *
+     * @param string $key
+     * @param $val
+     * @return bool
+     */
+    public static function set(string $key, $val)
     {
         self::$attributes[$key] = $val;
         return true;
     }
 
-    public function has(string $key)
+    /**
+     * 判断属性是否存在
+     *
+     * @param string $key
+     * @return bool
+     */
+    public static function has(string $key)
     {
-        if (isset(self::attributes[$key])) {
+        if (isset(self::$attributes[$key])) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * 添加多个属性
+     *
+     * @param array $arr
+     * @return array
+     */
+    public static function append(array $arr)
+    {
+        return self::$attributes = array_merge(self::$attributes, $arr);
+    }
+
+    /**
+     * 获取所有属性
+     *
+     * @return array
+     */
+    public static function getAll()
+    {
+        return self::$attributes;
     }
 
     public function __call($method, $params)

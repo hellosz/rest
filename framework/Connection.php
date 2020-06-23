@@ -30,9 +30,11 @@ class Connection
             return self::$instance;
         }
 
+        // 创建数据库连接实例
         require_once '../config/db.php';
         $conn = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USERNAME, DB_PASSWORD);// 创建数据库连接
         $conn->exec('set names utf8');// 设置字符集
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // 设置异常类型
 
         // 返回实例
         return self::$instance = $conn;
