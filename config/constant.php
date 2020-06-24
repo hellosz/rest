@@ -14,3 +14,4 @@ define('PASSWORD_SALT', 'rest');
 // 用户自定义错误类型
 define('USERNAME_AND_PASSWORD_CAN_NOT_NULL', 001);
 define('CREAT_ACCOUNT_FAILED', 002);
+define('USERNAME_OR_PASSWORD_NOT_MATCH', 003);

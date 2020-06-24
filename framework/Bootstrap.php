@@ -105,7 +105,7 @@ class Bootstrap
         // 解析
         $resource = explode('/', trim($requestUri, '/'));
         // 设置版本号
-        $this->requestVersion = array_shift($resource);
+        $this->requestVersion = $resource ? array_shift($resource) : '';
 
         // 获取请求rui
         if ($this->requestMethod == METHOD_POST) {
@@ -113,6 +113,7 @@ class Bootstrap
         } else {
             $this->requestUri = $resource[0]; // resource/parameter
         }
+        $this->requestUri = $this->requestUri ?? '';
     }
 
     /**
@@ -131,6 +132,7 @@ class Bootstrap
             $resource = explode('/', trim($requestUri, '/'));
             $this->parameters = $resource[2];
         }
+        $this->parameters = $this->parameters ?? [];
     }
 
     /**
